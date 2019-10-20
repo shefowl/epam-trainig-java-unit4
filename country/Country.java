@@ -1,18 +1,19 @@
 package by.epam.unit4.country;
 
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 
 public class Country {
     private String name;
     private float square;
     private City capital;
-    private Region [] regions;
+    private Set<Region> regions;
 
     public Country() {
     }
 
-    public Country(String name, float square, City capital, Region[] regions) {
+    public Country(String name, float square, City capital, Set<Region> regions) {
         this.name = name;
         this.square = square;
         this.capital = capital;
@@ -35,18 +36,17 @@ public class Country {
         if(this.getClass() != o.getClass()){
             return false;
         }
+
         Country country = (Country) o;
         return Float.compare(country.getSquare(), getSquare()) == 0 &&
                 Objects.equals(getName(), country.getName()) &&
                 Objects.equals(getCapital(), country.getCapital()) &&
-                Arrays.equals(getRegions(), country.getRegions());
+                Objects.equals(getRegions(), country.getRegions());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getName(), getSquare(), getCapital());
-        result = 31 * result + Arrays.hashCode(getRegions());
-        return result;
+        return Objects.hash(getName(), getSquare(), getCapital(), getRegions());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Country {
                 "name='" + name + '\'' +
                 ", square=" + square +
                 ", capital=" + capital +
-                ", regions=" + Arrays.toString(regions) +
+                ", regions=" + regions +
                 '}';
     }
 
@@ -83,12 +83,26 @@ public class Country {
         this.capital = capital;
     }
 
-    public Region[] getRegions() {
+    public Set<Region> getRegions() {
         return regions;
     }
 
-    public void setRegions(Region[] regions) {
+    public void setRegions(Set<Region> regions) {
         this.regions = regions;
+    }
+
+    public Region getRegion(Region region) {
+        Iterator<Region> iterator = regions.iterator();
+        while (iterator.hasNext()){
+            if(iterator.next().compareTo(region) == 0){
+                return iterator.next();
+            }
+        }
+        return null;
+    }
+
+    public void setRegion(Region region) {
+        this.regions.add(region);
     }
 
 }

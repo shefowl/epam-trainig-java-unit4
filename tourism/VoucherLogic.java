@@ -1,21 +1,41 @@
 package by.epam.unit4.tourism;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class VoucherLogic {
-    public static void sortVouchersByDays(Voucher[] vouchers){
-        for (int i = 0; i < vouchers.length; i++) {
-            int min = vouchers[i].getDays();
-            int minIndex = i;
-            for (int j = i+1; j < vouchers.length; j++) {
-                if (vouchers[j].getDays() < min) {
-                    min = vouchers[j].getDays();
-                    minIndex = j;
-                }
-            }
-            if (i != minIndex) {
-                Voucher tmp = vouchers[i];
-                vouchers[i] = vouchers[minIndex];
-                vouchers[minIndex] = tmp;
+    public static void sortVouchersByDays(List<Voucher> vouchers){
+        Collections.sort(vouchers);
+    }
+
+    public static List<Voucher> takeVouchersByType(List<Voucher> vouchers, Voucher.Type type){
+        List<Voucher> list = new ArrayList<>();
+        for(Voucher i:vouchers){
+            if(i.getType() == type){
+                list.add(i);
             }
         }
+        return list;
+    }
+
+    public static List<Voucher> takeVouchersByTransport(List<Voucher> vouchers, Voucher.Transport transport){
+        List<Voucher> list = new ArrayList<>();
+        for(Voucher i:vouchers){
+            if(i.getTransport() == transport){
+                list.add(i);
+            }
+        }
+        return list;
+    }
+
+    public static List<Voucher> takeVouchersByFeed(List<Voucher> vouchers, Voucher.Feed feed){
+        List<Voucher> list = new ArrayList<>();
+        for(Voucher i:vouchers){
+            if(i.getFeed() == feed){
+                list.add(i);
+            }
+        }
+        return list;
     }
 }

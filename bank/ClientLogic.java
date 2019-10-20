@@ -1,5 +1,9 @@
 package by.epam.unit4.bank;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class ClientLogic {
     public static Account findAccount(Client client,int accountNumber){
         for (Account i:client.getAccounts()) {
@@ -11,38 +15,34 @@ public class ClientLogic {
     }
 
     public static void sortAccountsByNumber(Client client){
-        Account [] accounts = client.getAccounts();
-        for (int i = 0; i < accounts.length; i++) {
-            int min = accounts[i].getAccountNumber();
-            int minIndex = i;
-            for (int j = i+1; j < accounts.length; j++) {
-                if (accounts[j].getAccountNumber() < min) {
-                    min = accounts[j].getAccountNumber();
-                    minIndex = j;
-                }
-            }
-            if (i != minIndex) {
-                Account tmp = accounts[i];
-                accounts[i] = accounts[minIndex];
-                accounts[minIndex] = tmp;
-            }
-        }
-        client.setAccounts(accounts);
+        List<Account> sorted = client.getAccounts();
+        Collections.sort(sorted);
+        client.setAccounts(sorted);
     }
+
+    public static void sortAccountsByBalance(Client client){
+        List<Account> sorted = client.getAccounts();
+        Comparator<Account> comparator = new Account();
+        Collections.sort(sorted, comparator);
+        client.setAccounts(sorted);
+    }
+
 
     public static float accountsBalancesSum(Client client){
         int sum = 0;
-        for(int i = 0; i < client.getAccounts().length; ++i){
-            sum += client.getAccounts()[i].getBalance();
+        for (Account i: client.getAccounts()) {
+            if(!i.isBlocked()) {
+                sum += i.getBalance();
+            }
         }
         return sum;
     }
 
     public static float accountsPositiveBalancesSum(Client client){
         int sum = 0;
-        for(int i = 0; i < client.getAccounts().length; ++i){
-            if(client.getAccounts()[i].getBalance() > 0){
-                sum += client.getAccounts()[i].getBalance();
+        for (Account i: client.getAccounts()) {
+            if(i.getBalance() > 0){
+                sum += i.getBalance();
             }
         }
         return sum;
@@ -50,9 +50,9 @@ public class ClientLogic {
 
     public static float accountsNegativeBalancesSum(Client client){
         int sum = 0;
-        for(int i = 0; i < client.getAccounts().length; ++i){
-            if(client.getAccounts()[i].getBalance() < 0){
-                sum += client.getAccounts()[i].getBalance();
+        for (Account i: client.getAccounts()) {
+            if(i.getBalance() < 0){
+                sum += i.getBalance();
             }
         }
         return sum;

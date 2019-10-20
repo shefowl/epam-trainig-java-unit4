@@ -1,12 +1,17 @@
 package by.epam.unit4.text;
 
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class Sentence {
-    private Word [] words;
+    private List<Word> words;
 
-    public Sentence(Word[] words) {
-        this.words = words;
+    public Sentence() {
+    }
+
+    public Sentence(List<Word> words) {
+        this.words = new LinkedList<>(words);
     }
 
     @Override
@@ -22,28 +27,27 @@ public class Sentence {
         if(this.getClass() != o.getClass()){
             return false;
         }
-
         Sentence sentence = (Sentence) o;
-        return Arrays.equals(getWords(), sentence.getWords());
+        return Objects.equals(getWords(), sentence.getWords());
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(getWords());
+        return Objects.hash(getWords());
     }
 
     @Override
     public String toString() {
         return "Sentence{" +
-                "words=" + Arrays.toString(words) +
+                "words=" + words +
                 '}';
     }
 
-    public Word[] getWords() {
-        return words;
+    public List<Word> getWords() {
+        return new LinkedList<Word>(words);
     }
 
-    public void setWords(Word[] words) {
-        this.words = words;
+    public void setWords(List<Word> words) {
+        this.words = new LinkedList<>(words);
     }
 }

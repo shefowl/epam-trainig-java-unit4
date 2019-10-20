@@ -1,8 +1,9 @@
 package by.epam.unit4.bank;
 
+import java.util.Comparator;
 import java.util.Objects;
 
-public class Account {
+public class Account implements Comparator<Account>, Comparable<Account> {
     private int accountNumber;
     private float balance;
     private boolean blocked;
@@ -48,6 +49,34 @@ public class Account {
                 ", balance=" + balance +
                 ", blocked=" + blocked +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Account o) {
+        if(accountNumber < o.getAccountNumber()){
+            return -1;
+        }
+        else if(accountNumber == o.getAccountNumber()){
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int compare(Account o1, Account o2) {
+        float balance1 = o1.getBalance();
+        float balance2 = o2.getBalance();
+        if(balance1 < balance2){
+            return -1;
+        }
+        else if(balance1 == balance2){
+            return 0;
+        }
+        else{
+            return 1;
+        }
     }
 
     public int getAccountNumber() {

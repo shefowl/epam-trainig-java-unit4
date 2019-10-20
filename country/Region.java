@@ -1,18 +1,19 @@
 package by.epam.unit4.country;
 
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 
-public class Region {
+public class Region implements Comparable<Region> {
     private String name;
-    private City [] cities;
+    private Set<City> cities;
     private City regionCenter;
     private Country country;
 
     public Region() {
     }
 
-    public Region(String name, City[] cities, City regionCenter) {
+    public Region(String name, Set<City> cities, City regionCenter) {
         this.name = name;
         this.cities = cities;
         for(City i:cities){
@@ -37,26 +38,29 @@ public class Region {
 
         Region region = (Region) o;
         return Objects.equals(getName(), region.getName()) &&
-                Arrays.equals(getCities(), region.getCities()) &&
+                Objects.equals(getCities(), region.getCities()) &&
                 Objects.equals(getRegionCenter(), region.getRegionCenter()) &&
                 Objects.equals(getCountry(), region.getCountry());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getName(), getRegionCenter(), getCountry());
-        result = 31 * result + Arrays.hashCode(getCities());
-        return result;
+        return Objects.hash(getName(), getCities(), getRegionCenter(), getCountry());
     }
 
     @Override
     public String toString() {
         return "Region{" +
                 "name='" + name + '\'' +
-                ", cities=" + Arrays.toString(cities) +
+                ", cities=" + cities +
                 ", regionCenter=" + regionCenter +
                 ", country=" + country +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Region region) {
+        return name.compareTo(region.getName());
     }
 
     public String getName() {
@@ -67,11 +71,25 @@ public class Region {
         this.name = name;
     }
 
-    public City[] getCities() {
+    public Set<City> getCities() {
         return cities;
     }
 
-    public void setCities(City[] cities) {
+    public void setCities(Set<City> cities) {
+        this.cities = cities;
+    }
+
+    public City getCity(City city) {
+        Iterator<City> iterator = cities.iterator();
+        while (iterator.hasNext()){
+            if(iterator.next().compareTo(city) == 0){
+                return iterator.next();
+            }
+        }
+        return null;
+    }
+
+    public void setCity(Set<City> cities) {
         this.cities = cities;
     }
 

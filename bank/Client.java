@@ -1,18 +1,19 @@
 package by.epam.unit4.bank;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Client {
     private String name;
-    private Account [] accounts;
+    private List<Account> accounts;
 
     public Client() {
     }
 
-    public Client(String name, Account[] accounts) {
+    public Client(String name, List<Account> accounts) {
         this.name = name;
-        this.accounts = accounts;
+        this.accounts = new ArrayList<>(accounts);
     }
 
     @Override
@@ -31,21 +32,19 @@ public class Client {
 
         Client client = (Client) o;
         return Objects.equals(getName(), client.getName()) &&
-                Arrays.equals(getAccounts(), client.getAccounts());
+                Objects.equals(getAccounts(), client.getAccounts());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getName());
-        result = 31 * result + Arrays.hashCode(getAccounts());
-        return result;
+        return Objects.hash(getName(), getAccounts());
     }
 
     @Override
     public String toString() {
         return "Client{" +
                 "name='" + name + '\'' +
-                ", accounts=" + Arrays.toString(accounts) +
+                ", accounts=" + accounts +
                 '}';
     }
 
@@ -57,11 +56,11 @@ public class Client {
         this.name = name;
     }
 
-    public Account[] getAccounts() {
-        return accounts;
+    public List<Account> getAccounts() {
+        return new ArrayList<> (accounts);
     }
 
-    public void setAccounts(Account[] accounts) {
-        this.accounts = accounts;
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = new ArrayList<>(accounts);
     }
 }
